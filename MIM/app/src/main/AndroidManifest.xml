@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--
+        MIM intentionally declares NO internet permission, NO storage permission,
+        NO location permission, and NO contacts permission. It runs 100% offline.
+
+        Only strictly required permissions for optional features are declared below:
+        1. SYSTEM_ALERT_WINDOW: Only requested if the user explicitly enables the optional Floating Controller.
+        2. FOREGROUND_SERVICE / FOREGROUND_SERVICE_SPECIAL_USE: Keeps the optional Floating Controller alive while active on Android 14+.
+        3. POST_NOTIFICATIONS: Allows showing the minimal persistent control notification when Floating Controller is active on Android 13+.
+    -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MIM"
+        tools:targetApi="35">
+
+        <!-- Main Home Activity: configured with turnScreenOn and showWhenLocked where supported -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:theme="@style/Theme.MIM">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Primary Screen Lock Method: Official Android Device Admin (force-lock policy only) -->
+        <receiver
+            android:name=".admin.MimDeviceAdminReceiver"
+            android:description="@string/device_admin_description"
+            android:exported="true"
+            android:label="@string/device_admin_label"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/mim_device_admin" />
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
+
+        <!--
+            Optional Biometric-Friendly Screen Lock Method (Android 9+ / API 28+):
+            Uses GLOBAL_ACTION_LOCK_SCREEN without reading window content or monitoring apps.
+        -->
+        <service
+            android:name=".service.MimAccessibilityService"
+            android:exported="false"
+            android:label="@string/accessibility_service_label"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/mim_accessibility_service" />
+        </service>
+
+        <!-- Optional Floating Hardware Button Overlay Service (Disabled by default) -->
+        <service
+            android:name=".service.MimFloatingService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Optional user-enabled floating virtual volume and screen-lock buttons for devices with damaged physical hardware keys." />
+        </service>
+
+    </application>
+
+</manifest>

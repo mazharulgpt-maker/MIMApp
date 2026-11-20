@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<device-admin xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+        MIM requests ONLY force-lock so the center Power button can lock the screen
+        and turn the display off immediately. No wipe-data, password, or camera policies.
+    -->
+    <uses-policies>
+        <force-lock />
+    </uses-policies>
+</device-admin>

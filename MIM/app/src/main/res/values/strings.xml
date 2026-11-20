@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MIM</string>
+    <string name="device_admin_label">MIM Screen Lock</string>
+    <string name="device_admin_description">Allows MIM to immediately turn off and lock your screen when you tap the virtual Power button. MIM never wipes data or monitors other apps.</string>
+    <string name="device_admin_explanation">MIM needs Device Administrator (Screen Lock only) permission so the center Power button can turn off your display and lock your phone immediately.</string>
+    <string name="accessibility_service_label">MIM Screen Lock (Biometric Friendly)</string>
+    <string name="accessibility_service_description">Used exclusively to lock the screen via Android GLOBAL_ACTION_LOCK_SCREEN when you tap the MIM Power button. Keeps fingerprint and face unlock working on Android 9+. MIM does not read screen content or track other apps.</string>
+    <string name="floating_channel_name">MIM Floating Controller</string>
+    <string name="floating_channel_description">Keeps the optional MIM floating virtual button controller active when enabled.</string>
+    <string name="floating_notification_title">MIM Floating Controller active</string>
+    <string name="floating_notification_text">Tap to open MIM settings or disable the floating controller.</string>
+</resources>
